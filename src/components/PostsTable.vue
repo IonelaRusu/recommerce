@@ -1,37 +1,37 @@
 <template>
   <div>
-<!--    <b-table striped hover></b-table>-->
-    <b-table striped hover :items="items"></b-table>
+    <b-table striped hover :items="items" :fields="fields">
+      <template #cell(categories)="row">
+        {{ row.value.join(',') }}
+      </template>
+      <template #cell(actions)="row">
+        <b-button variant="danger" @click="editPost(row.item, row.index)">Edit</b-button>
+      </template>
+    </b-table>
   </div>
 </template>
 
 <script>
-// import {filter} from 'lodash';
 export default {
   name: 'PostsTable',
-  // data() {
-  //   return {
-  //     items: [
-  //       {
-  //         id: 40, title: 'Dickerson', post: 'Macdonald', author: 40, categories: 'Dickerson', comments: 'Macdonald',
-  //         likes: 'Macdonald', actions: 'Macdonald'
-  //       },
-  //       {age: 21, first_name: 'Larsen', last_name: 'Shaw'},
-  //       {age: 89, first_name: 'Geneva', last_name: 'Wilson'},
-  //       {age: 38, first_name: 'Jami', last_name: 'Carney'}
-  //     ]
-  //   }
-  // }
   props: {
-      items: {
-        required: true,
-        type: Array,
-      },
+    items: {
+      required: true,
+      type: Array,
+    },
+    fields: {
+      required: true,
+      type: Array,
+    },
   },
-  created() {
-    // this.items = filter(this.items, item => {
-    //   return item !== undefined;
-    // })
+
+  methods: {
+    editPost(item, index) {
+      this.$router.push({
+        name: 'Article',
+        params: {id: index, details: item}
+      });
+    },
   }
 }
 </script>

@@ -1,14 +1,12 @@
 <template>
   <div>
-    <posts-table :items="items"></posts-table>
+    <posts-table :items="tableItems" :fields="fields"></posts-table>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import {isEmpty} from 'lodash';
 import PostsTable from '@/components/PostsTable';
-// import { filter } from 'lodash';
 
 export default {
   name: 'Home',
@@ -22,22 +20,9 @@ export default {
       users: null,
       categories: null,
       tableItems: [],
-      items: [],
+      fields: ['id', 'title', 'post', 'author', 'categories', 'comments', 'likes', 'actions']
     }
   },
-  // computed: {
-  //     items: function() {
-  //       console.log(this.tableItems);
-  //       console.log(!isEmpty(this.tableItems));
-  //       // console.log(Object.values(this.tableItems));
-  //       return !isEmpty(this.tableItems) ? this.tableItems : [];
-  //   }
-  // },
-  // watcher: {
-  //    tableItems: function() {
-  //      this.
-  //    }
-  // },
   created() {
     this.initializePage();
   },
@@ -46,7 +31,6 @@ export default {
   beforeDestroy() {
   },
   watch: {},
-
   methods: {
     initializePage() {
       let requestList = [];
@@ -68,18 +52,15 @@ export default {
         this.tableItems[post.id] = {
           id: post.id,
           title: post.title,
-          post: post.title,
+          post: post.content,
           likes: post.likes,
           comments: 0,
           author: '',
           categories: [],
         }
       });
-      console.log(this.tableItems);
-
     },
     async getAllComments() {
-      console.log(this.tableItems);
       let response = await fetch('http://fakeapi.jsonparseronline.com/comments')
           .then(response => response.json())
 
